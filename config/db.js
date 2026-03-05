@@ -9,6 +9,7 @@ const { Pool } = pkg;
   - A pool allows multiple queries without reconnecting each time.
   - Environment variables keep credentials secure.
 */
+/* remove comment to user local postgreSQL
 const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -17,7 +18,15 @@ const pool = new Pool({
     port: process.env.DB_PORT
     
 });
-console.log("DB PASSWORD:", process.env.DB_PASSWORD);
+*/
+// add comment if local postgreSQL will be used
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
+});
+
+
+
 // Test connection
 pool.connect()
   .then(() => console.log("[/] Connected to PostgreSQL"))
